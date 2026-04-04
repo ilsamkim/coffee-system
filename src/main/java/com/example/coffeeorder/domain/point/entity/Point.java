@@ -31,4 +31,11 @@ public class Point {
     public void addAmount(Long amount) {
         this.amount += amount;
     }
+
+    public void deductAmount(Long amount) {
+        if (this.amount < amount) {
+            throw new IllegalArgumentException("포인트 잔액이 부족합니다.");
+        }
+        this.amount -= amount;
+    }
 }

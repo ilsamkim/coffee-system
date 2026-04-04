@@ -22,4 +22,11 @@ public class PointService {
         point.addAmount(request.getAmount());
         return PointResponse.from(point);
     }
+
+    @Transactional
+    public void usePoint(String userId, Long amount) {
+        Point point = pointRepository.findByUserId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("포인트 정보가 없는 사용자입니다."));
+        point.deductAmount(amount);
+    }
 }
