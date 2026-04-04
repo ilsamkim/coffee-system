@@ -1,5 +1,6 @@
 package com.example.coffeeorder.domain.point.controller;
 
+import com.example.coffeeorder.common.response.ApiResponse;
 import com.example.coffeeorder.domain.point.dto.PointRequest;
 import com.example.coffeeorder.domain.point.dto.PointResponse;
 import com.example.coffeeorder.domain.point.service.PointService;
@@ -17,7 +18,7 @@ public class PointController {
     private final PointService pointService;
 
     @PostMapping("/charge")
-    public PointResponse charge(@RequestBody PointRequest request) {
-        return pointService.charge(request);
+    public ApiResponse<PointResponse> charge(@RequestBody PointRequest request) {
+        return ApiResponse.success(pointService.charge(request));
     }
 }

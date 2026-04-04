@@ -1,5 +1,7 @@
 package com.example.coffeeorder.domain.point.entity;
 
+import com.example.coffeeorder.common.exception.ErrorCode;
+import com.example.coffeeorder.common.exception.ServiceErrorException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -34,7 +36,7 @@ public class Point {
 
     public void deductAmount(Long amount) {
         if (this.amount < amount) {
-            throw new IllegalArgumentException("포인트 잔액이 부족합니다.");
+            throw new ServiceErrorException(ErrorCode.ERR_INSUFFICIENT_POINTS);
         }
         this.amount -= amount;
     }

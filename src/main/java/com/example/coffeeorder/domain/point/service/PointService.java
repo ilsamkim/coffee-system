@@ -1,5 +1,7 @@
 package com.example.coffeeorder.domain.point.service;
 
+import com.example.coffeeorder.common.exception.ErrorCode;
+import com.example.coffeeorder.common.exception.ServiceErrorException;
 import com.example.coffeeorder.domain.point.dto.PointRequest;
 import com.example.coffeeorder.domain.point.dto.PointResponse;
 import com.example.coffeeorder.domain.point.entity.Point;
@@ -26,7 +28,7 @@ public class PointService {
     @Transactional
     public void usePoint(String userId, Long amount) {
         Point point = pointRepository.findByUserId(userId)
-                .orElseThrow(() -> new IllegalArgumentException("포인트 정보가 없는 사용자입니다."));
+                .orElseThrow(() -> new ServiceErrorException(ErrorCode.ERR_POINT_NOT_FOUND));
         point.deductAmount(amount);
     }
 }

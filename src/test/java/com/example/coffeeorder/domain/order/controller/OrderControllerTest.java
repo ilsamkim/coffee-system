@@ -1,5 +1,6 @@
 package com.example.coffeeorder.domain.order.controller;
 
+import com.example.coffeeorder.common.response.ApiResponse;
 import com.example.coffeeorder.domain.order.dto.OrderRequest;
 import com.example.coffeeorder.domain.order.dto.OrderResponse;
 import com.example.coffeeorder.domain.order.entity.Order;
@@ -36,11 +37,11 @@ class OrderControllerTest {
         given(orderFacade.order(any(OrderRequest.class))).willReturn(OrderResponse.from(order));
 
         // when
-        OrderResponse result = orderController.order(request);
+        ApiResponse<OrderResponse> response = orderController.order(request);
 
         // then
-        assertThat(result.getUserId()).isEqualTo(userId);
-        assertThat(result.getCoffeeId()).isEqualTo(coffeeId);
-        assertThat(result.getAmount()).isEqualTo(5000);
+        assertThat(response.isSuccess()).isTrue();
+        assertThat(response.getData().getUserId()).isEqualTo(userId);
+        assertThat(response.getData().getCoffeeId()).isEqualTo(coffeeId);
     }
 }

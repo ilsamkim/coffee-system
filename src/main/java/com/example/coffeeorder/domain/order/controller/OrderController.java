@@ -1,5 +1,6 @@
 package com.example.coffeeorder.domain.order.controller;
 
+import com.example.coffeeorder.common.response.ApiResponse;
 import com.example.coffeeorder.domain.order.dto.OrderRequest;
 import com.example.coffeeorder.domain.order.dto.OrderResponse;
 import com.example.coffeeorder.domain.order.facade.OrderFacade;
@@ -17,7 +18,7 @@ public class OrderController {
     private final OrderFacade orderFacade;
 
     @PostMapping
-    public OrderResponse order(@RequestBody OrderRequest request) {
-        return orderFacade.order(request);
+    public ApiResponse<OrderResponse> order(@RequestBody OrderRequest request) {
+        return ApiResponse.success(orderFacade.order(request));
     }
 }
