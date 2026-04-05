@@ -12,7 +12,8 @@ public class OrderResponse {
     private Long orderId;
     private String userId;
     private Long coffeeId;
-    private Integer amount;
+    private Integer quantity;
+    private Long totalPrice;
     private LocalDateTime orderDate;
 
     public static OrderResponse from(Order order) {
@@ -20,7 +21,8 @@ public class OrderResponse {
         response.orderId = order.getId();
         response.userId = order.getUserId();
         response.coffeeId = order.getCoffeeId();
-        response.amount = order.getAmount();
+        response.quantity = order.getQuantity();
+        response.totalPrice = order.getTotalPrice();
         response.orderDate = order.getOrderDate();
         return response;
     }

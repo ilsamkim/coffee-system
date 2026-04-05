@@ -59,7 +59,7 @@ class OrderConcurrencyTest {
         ExecutorService executorService = Executors.newFixedThreadPool(32);
         CountDownLatch latch = new CountDownLatch(threadCount);
 
-        OrderRequest request = new OrderRequest(userId, coffeeId);
+        OrderRequest request = new OrderRequest(userId, coffeeId, 1);
 
         for (int i = 0; i < threadCount; i++) {
             executorService.submit(() -> {

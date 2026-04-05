@@ -75,15 +75,17 @@ public class OrderFacade {
     private OrderResponse createOrder(OrderRequest request) {
         // 1. 메뉴 조회
         Coffee coffee = coffeeService.getById(request.getCoffeeId());
+        int quantity = request.getAmount() != null ? request.getAmount() : 1;
 
         // 2. 재고 차감
-        coffeeService.decreaseStock(coffee.getId(), 1);
+        coffeeService.decreaseStock(coffee.getId(), quantity);
 
-        // 3. 포인트 차감
-        pointService.usePoint(request.getUserId(), Long.valueOf(coffee.getPrice()));
+        // 3. 포인트 차감 (단가 * 수량)
+        long totalPrice = (long) coffee.getPrice() * quantity;
+        pointService.usePoint(request.getUserId(), totalPrice);
 
         // 4. 주문 저장
-        Order order = orderService.saveOrder(request.getUserId(), coffee.getId(), coffee.getPrice());
+        Order order = orderService.saveOrder(request.getUserId(), coffee.getId(), quantity, totalPrice);
 
         // 5. 주문 완료 이벤트 발행 (비동기 처리)
         eventPublisher.publishEvent(new OrderCreatedEvent(order));

@@ -31,9 +31,11 @@ class OrderControllerTest {
         // given
         String userId = "user123";
         Long coffeeId = 1L;
-        OrderRequest request = new OrderRequest(userId, coffeeId);
+        Integer quantity = 1;
+        Long totalPrice = 4500L;
+        OrderRequest request = new OrderRequest(userId, coffeeId, quantity);
         
-        Order order = Order.create(userId, coffeeId, 5000);
+        Order order = Order.create(userId, coffeeId, quantity, totalPrice);
         given(orderFacade.order(any(OrderRequest.class))).willReturn(OrderResponse.from(order));
 
         // when
@@ -43,5 +45,7 @@ class OrderControllerTest {
         assertThat(response.isSuccess()).isTrue();
         assertThat(response.getData().getUserId()).isEqualTo(userId);
         assertThat(response.getData().getCoffeeId()).isEqualTo(coffeeId);
+        assertThat(response.getData().getQuantity()).isEqualTo(quantity);
+        assertThat(response.getData().getTotalPrice()).isEqualTo(totalPrice);
     }
 }

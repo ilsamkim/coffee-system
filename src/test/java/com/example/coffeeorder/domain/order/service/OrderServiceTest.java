@@ -29,18 +29,20 @@ class OrderServiceTest {
         // given
         String userId = "user123";
         Long coffeeId = 1L;
-        Integer price = 5000;
-        Order order = Order.create(userId, coffeeId, price);
+        Integer quantity = 2;
+        Long totalPrice = 10000L;
+        Order order = Order.create(userId, coffeeId, quantity, totalPrice);
         ReflectionTestUtils.setField(order, "id", 1L);
 
         given(orderRepository.save(any(Order.class))).willReturn(order);
 
         // when
-        Order result = orderService.saveOrder(userId, coffeeId, price);
+        Order result = orderService.saveOrder(userId, coffeeId, quantity, totalPrice);
 
         // then
         assertThat(result.getUserId()).isEqualTo(userId);
         assertThat(result.getCoffeeId()).isEqualTo(coffeeId);
-        assertThat(result.getAmount()).isEqualTo(price);
+        assertThat(result.getQuantity()).isEqualTo(quantity);
+        assertThat(result.getTotalPrice()).isEqualTo(totalPrice);
     }
 }

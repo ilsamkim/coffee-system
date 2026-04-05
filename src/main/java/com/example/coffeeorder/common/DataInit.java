@@ -36,13 +36,13 @@ public class DataInit implements CommandLineRunner {
         }
 
         if (orderHistoryRepository.count() == 0) {
-            OrderHistory history1 = OrderHistory.create(101L, "user1", 1L, 4500);
+            OrderHistory history1 = OrderHistory.create(101L, "user1", 1L, 1, 4500L);
             history1.fail();
 
-            OrderHistory history2 = OrderHistory.create(102L, "user2", 2L, 5000);
+            OrderHistory history2 = OrderHistory.create(102L, "user2", 2L, 1, 5000L);
             history2.fail();
 
-            OrderHistory history3 = OrderHistory.create(103L, "user3", 3L, 5500);
+            OrderHistory history3 = OrderHistory.create(103L, "user3", 3L, 1, 5500L);
             history3.fail();
 
             orderHistoryRepository.saveAll(List.of(history1, history2, history3));

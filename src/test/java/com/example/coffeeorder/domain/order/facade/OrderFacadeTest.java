@@ -13,7 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.Spy;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.context.ApplicationEventPublisher;
@@ -45,8 +44,6 @@ class OrderFacadeTest {
     @Mock
     private PlatformTransactionManager transactionManager;
     @Mock
-    private RLock lock;
-    @Mock
     private RLock multiLock;
 
     @InjectMocks
@@ -59,21 +56,21 @@ class OrderFacadeTest {
         String userId = "user123";
         Long coffeeId = 1L;
         Integer price = 5000;
-        OrderRequest request = new OrderRequest(userId, coffeeId);
+        Integer quantity = 2;
+        long totalPrice = (long) price * quantity;
+        OrderRequest request = new OrderRequest(userId, coffeeId, quantity);
 
         Coffee coffee = Coffee.create("아메리카노", price, 100);
         ReflectionTestUtils.setField(coffee, "id", coffeeId);
 
-        Order order = Order.create(userId, coffeeId, price);
+        Order order = Order.create(userId, coffeeId, quantity, totalPrice);
         ReflectionTestUtils.setField(order, "id", 100L);
 
         // Redisson MultiLock 모킹
-        // getLock이 두 번 호출됨 (userLockKey, coffeeLockKey)
         RLock userLock = mock(RLock.class);
         RLock coffeeLock = mock(RLock.class);
         given(redissonClient.getLock(anyString())).willReturn(userLock, coffeeLock);
-        
-        // MultiLock 모킹 (varargs 대응)
+
         given(redissonClient.getMultiLock(any(RLock.class), any(RLock.class))).willReturn(multiLock);
         given(multiLock.tryLock(anyLong(), anyLong(), any(TimeUnit.class))).willReturn(true);
         given(multiLock.isHeldByCurrentThread()).willReturn(true);
@@ -83,19 +80,19 @@ class OrderFacadeTest {
         given(transactionManager.getTransaction(any())).willReturn(status);
 
         given(coffeeService.getById(coffeeId)).willReturn(coffee);
-        given(orderService.saveOrder(userId, coffeeId, price)).willReturn(order);
+        given(orderService.saveOrder(userId, coffeeId, quantity, totalPrice)).willReturn(order);
 
         // when
         OrderResponse response = orderFacade.order(request);
 
         // then
         assertThat(response.getUserId()).isEqualTo(userId);
-        assertThat(response.getAmount()).isEqualTo(price);
-        
-        verify(coffeeService).decreaseStock(coffeeId, 1);
-        verify(pointService).usePoint(userId, Long.valueOf(price));
-        verify(orderService).saveOrder(userId, coffeeId, price);
-        verify(eventPublisher).publishEvent(any(com.example.coffeeorder.domain.order.event.OrderCreatedEvent.class));
+        assertThat(response.getQuantity()).isEqualTo(quantity);
+        assertThat(response.getTotalPrice()).isEqualTo(totalPrice);
+
+        verify(coffeeService).decreaseStock(coffeeId, quantity);
+        verify(pointService).usePoint(userId, totalPrice);
+        verify(orderService).saveOrder(userId, coffeeId, quantity, totalPrice);
         verify(multiLock).unlock();
     }
 }

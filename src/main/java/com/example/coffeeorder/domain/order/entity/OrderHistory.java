@@ -31,7 +31,10 @@ public class OrderHistory {
     private Long coffeeId;
 
     @Column(nullable = false)
-    private Integer amount;
+    private Integer quantity;
+
+    @Column(nullable = false)
+    private Long totalPrice;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -51,17 +54,18 @@ public class OrderHistory {
         PENDING, SUCCESS, FAIL
     }
 
-    private OrderHistory(Long orderId, String userId, Long coffeeId, Integer amount) {
+    private OrderHistory(Long orderId, String userId, Long coffeeId, Integer quantity, Long totalPrice) {
         this.orderId = orderId;
         this.userId = userId;
         this.coffeeId = coffeeId;
-        this.amount = amount;
+        this.quantity = quantity;
+        this.totalPrice = totalPrice;
         this.status = HistoryStatus.PENDING;
         this.retryCount = 0;
     }
 
-    public static OrderHistory create(Long orderId, String userId, Long coffeeId, Integer amount) {
-        return new OrderHistory(orderId, userId, coffeeId, amount);
+    public static OrderHistory create(Long orderId, String userId, Long coffeeId, Integer quantity, Long totalPrice) {
+        return new OrderHistory(orderId, userId, coffeeId, quantity, totalPrice);
     }
 
     public void complete() {

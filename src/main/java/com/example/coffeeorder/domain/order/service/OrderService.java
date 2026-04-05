@@ -17,8 +17,8 @@ public class OrderService {
     private final OrderRepository orderRepository;
 
     @Transactional
-    public Order saveOrder(String userId, Long coffeeId, Integer price) {
-        Order order = Order.create(userId, coffeeId, price);
+    public Order saveOrder(String userId, Long coffeeId, Integer quantity, Long totalPrice) {
+        Order order = Order.create(userId, coffeeId, quantity, totalPrice);
         return orderRepository.save(order);
     }
 

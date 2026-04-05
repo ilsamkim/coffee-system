@@ -27,12 +27,12 @@ public class OrderEventListener {
         log.info("비동기 주문 데이터 전송 시작 - 주문번호: {}", order.getId());
 
         try {
-            dataPlatformCollector.sendOrderInfo(order.getUserId(), order.getCoffeeId(), order.getAmount());
+            dataPlatformCollector.sendOrderInfo(order.getUserId(), order.getCoffeeId(), order.getQuantity(), order.getTotalPrice());
             log.info("비동기 주문 데이터 전송 완료 - 주문번호: {}", order.getId());
         } catch (Exception e) {
             log.error("데이터 수집 플랫폼 전송 실패 - 주문번호: {}, 사유: {}", order.getId(), e.getMessage());
             // 실패 내역 저장 (나중에 스케줄러가 재시도)
-            OrderHistory history = OrderHistory.create(order.getId(), order.getUserId(), order.getCoffeeId(), order.getAmount());
+            OrderHistory history = OrderHistory.create(order.getId(), order.getUserId(), order.getCoffeeId(), order.getQuantity(), order.getTotalPrice());
             history.fail();
             orderHistoryRepository.save(history);
         }

@@ -24,16 +24,20 @@ public class Order {
     private Long coffeeId;
 
     @Column(nullable = false)
-    private Integer amount;
+    private Integer quantity;
+
+    @Column(nullable = false)
+    private Long totalPrice;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime orderDate;
 
-    public static Order create(String userId, Long coffeeId, Integer amount) {
+    public static Order create(String userId, Long coffeeId, Integer quantity, Long totalPrice) {
         Order order = new Order();
         order.userId = userId;
         order.coffeeId = coffeeId;
-        order.amount = amount;
+        order.quantity = quantity;
+        order.totalPrice = totalPrice;
         order.orderDate = LocalDateTime.now();
         return order;
     }
