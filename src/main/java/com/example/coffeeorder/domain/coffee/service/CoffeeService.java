@@ -25,6 +25,7 @@ public class CoffeeService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public Coffee getById(Long id) {
         return coffeeRepository.findById(id)
                 .orElseThrow(() -> new ServiceErrorException(ErrorCode.ERR_MENU_NOT_FOUND));
