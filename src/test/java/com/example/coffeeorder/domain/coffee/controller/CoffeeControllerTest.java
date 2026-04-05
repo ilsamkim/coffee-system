@@ -30,8 +30,8 @@ class CoffeeControllerTest {
     void getCoffees() {
         // given
         List<CoffeeResponse> mockResponses = List.of(
-                CoffeeResponse.from(Coffee.create("아메리카노", 4500)),
-                CoffeeResponse.from(Coffee.create("카페라떼", 5000))
+                CoffeeResponse.from(Coffee.create("아메리카노", 4500, 100)),
+                CoffeeResponse.from(Coffee.create("카페라떼", 5000, 100))
         );
         given(coffeeFacade.findAll()).willReturn(mockResponses);
 
@@ -49,9 +49,9 @@ class CoffeeControllerTest {
     void getPopularMenus() {
         // given
         List<CoffeeResponse> mockResponses = List.of(
-                CoffeeResponse.from(Coffee.create("아메리카노", 4500)),
-                CoffeeResponse.from(Coffee.create("카페라떼", 5000)),
-                CoffeeResponse.from(Coffee.create("바닐라라떼", 5500))
+                CoffeeResponse.from(Coffee.create("아메리카노", 4500, 100)),
+                CoffeeResponse.from(Coffee.create("카페라떼", 5000, 100)),
+                CoffeeResponse.from(Coffee.create("바닐라라떼", 5500, 100))
         );
         given(coffeeFacade.getPopularMenus()).willReturn(mockResponses);
 

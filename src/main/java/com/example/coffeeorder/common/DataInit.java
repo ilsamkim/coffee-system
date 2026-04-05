@@ -19,18 +19,19 @@ public class DataInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        // 커피 데이터 초기화
         if (coffeeRepository.count() == 0) {
             coffeeRepository.saveAll(List.of(
-                    Coffee.create("아메리카노", 4500),
-                    Coffee.create("카페라떼", 5000),
-                    Coffee.create("바닐라라떼", 5500),
-                    Coffee.create("카라멜마끼아또", 6000),
-                    Coffee.create("카페모카", 5500),
-                    Coffee.create("콜드브루", 4800),
-                    Coffee.create("에스프레소", 3500),
-                    Coffee.create("아인슈페너", 6500),
-                    Coffee.create("돌체라떼", 5800),
-                    Coffee.create("자몽허니블랙티", 6300)
+                    Coffee.create("아메리카노", 4500, 100),
+                    Coffee.create("카페라떼", 5000, 100),
+                    Coffee.create("바닐라라떼", 5500, 100),
+                    Coffee.create("카라멜마끼아또", 6000, 100),
+                    Coffee.create("카페모카", 5500, 100),
+                    Coffee.create("콜드브루", 4800, 100),
+                    Coffee.create("에스프레소", 3500, 100),
+                    Coffee.create("아인슈페너", 6500, 100),
+                    Coffee.create("돌체라떼", 5800, 100),
+                    Coffee.create("자몽허니블랙티", 6300, 100)
             ));
         }
 

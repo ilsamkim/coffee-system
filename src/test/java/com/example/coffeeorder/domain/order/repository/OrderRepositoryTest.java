@@ -4,9 +4,9 @@ import com.example.coffeeorder.domain.order.entity.Order;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
-import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,9 +15,9 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
+@SpringBootTest
+@ActiveProfiles("test")
 @Transactional
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class OrderRepositoryTest {
 
     @Autowired
@@ -27,7 +27,7 @@ class OrderRepositoryTest {
     @DisplayName("최근 7일간 가장 많이 주문된 커피 ID 목록을 조회한다.")
     void findPopularCoffeeIds() {
         // given
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now().withNano(0);
         LocalDateTime sevenDaysAgo = now.minusDays(7);
 
         // 1번 커피: 3번 주문 (7일 이내)
@@ -46,7 +46,7 @@ class OrderRepositoryTest {
         orderRepository.save(createOrder("user9", 3L, 5500, now.minusDays(1)));
         orderRepository.save(createOrder("user10", 3L, 5500, now.minusDays(2)));
 
-        // 4번 커피: 10번 주문 (하지만 8일 전 - 포함되지 않아야 함)
+        // 4번 커피: 1번 주문 (하지만 8일 전 - 포함되지 않아야 함)
         orderRepository.save(createOrder("user11", 4L, 6000, now.minusDays(8)));
 
         // when

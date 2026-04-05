@@ -13,6 +13,7 @@ public enum ErrorCode {
 
     // Coffee
     ERR_MENU_NOT_FOUND(HttpStatus.NOT_FOUND, "C001", "존재하지 않는 메뉴입니다."),
+    ERR_OUT_OF_STOCK(HttpStatus.BAD_REQUEST, "C002", "메뉴 재고가 부족합니다."),
 
     // Common
     ERR_INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "S001", "서버 내부 에러가 발생했습니다.");
