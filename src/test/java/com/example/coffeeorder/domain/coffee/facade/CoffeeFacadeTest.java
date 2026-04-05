@@ -38,9 +38,9 @@ class CoffeeFacadeTest {
         given(orderService.getPopularCoffeeIds(any(LocalDateTime.class), eq(3)))
                 .willReturn(popularCoffeeIds);
 
-        given(coffeeService.getById(1L)).willReturn(Coffee.create("아메리카노", 4500));
-        given(coffeeService.getById(2L)).willReturn(Coffee.create("카페라떼", 5000));
-        given(coffeeService.getById(3L)).willReturn(Coffee.create("바닐라라떼", 5500));
+        given(coffeeService.getById(1L)).willReturn(Coffee.create("아메리카노", 4500, 100));
+        given(coffeeService.getById(2L)).willReturn(Coffee.create("카페라떼", 5000, 100));
+        given(coffeeService.getById(3L)).willReturn(Coffee.create("바닐라라떼", 5500, 100));
 
         // when
         List<CoffeeResponse> result = coffeeFacade.getPopularMenus();

@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -13,7 +11,6 @@ import java.time.LocalDateTime;
 @Getter
 @Table(name = "orders")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@EntityListeners(AuditingEntityListener.class)
 public class Order {
 
     @Id
@@ -29,8 +26,7 @@ public class Order {
     @Column(nullable = false)
     private Integer amount;
 
-    @CreatedDate
-    @Column(updatable = false)
+    @Column(nullable = false, updatable = false)
     private LocalDateTime orderDate;
 
     public static Order create(String userId, Long coffeeId, Integer amount) {
@@ -38,6 +34,7 @@ public class Order {
         order.userId = userId;
         order.coffeeId = coffeeId;
         order.amount = amount;
+        order.orderDate = LocalDateTime.now();
         return order;
     }
 }
