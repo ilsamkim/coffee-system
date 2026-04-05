@@ -47,6 +47,11 @@ public class CoffeeService {
                 .orElseThrow(() -> new ServiceErrorException(ErrorCode.ERR_MENU_NOT_FOUND));
     }
 
+    @Transactional(readOnly = true)
+    public List<Coffee> findAllByIds(List<Long> ids) {
+        return coffeeRepository.findAllById(ids);
+    }
+
     public void decreaseStock(Long id, int quantity) {
         String lockKey = "coffee-order:coffee:" + id;
         RLock lock = redissonClient.getLock(lockKey);
