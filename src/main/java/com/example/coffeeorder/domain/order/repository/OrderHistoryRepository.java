@@ -1,4 +1,4 @@
-﻿package com.example.coffeeorder.domain.order.repository;
+package com.example.coffeeorder.domain.order.repository;
 
 import com.example.coffeeorder.domain.order.entity.OrderHistory;
 import org.springframework.data.jpa.repository.JpaRepository;

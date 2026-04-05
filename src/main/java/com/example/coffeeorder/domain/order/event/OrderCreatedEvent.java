@@ -1,4 +1,4 @@
-﻿package com.example.coffeeorder.domain.order.event;
+package com.example.coffeeorder.domain.order.event;
 
 import com.example.coffeeorder.domain.order.entity.Order;
 import lombok.Getter;
