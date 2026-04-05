@@ -5,10 +5,11 @@ import com.example.coffeeorder.domain.coffee.service.CoffeeService;
 import com.example.coffeeorder.domain.order.dto.OrderRequest;
 import com.example.coffeeorder.domain.order.dto.OrderResponse;
 import com.example.coffeeorder.domain.order.entity.Order;
-import com.example.coffeeorder.domain.order.infrastructure.DataPlatformCollector;
+import com.example.coffeeorder.domain.order.event.OrderCreatedEvent;
 import com.example.coffeeorder.domain.order.service.OrderService;
 import com.example.coffeeorder.domain.point.service.PointService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +20,7 @@ public class OrderFacade {
     private final CoffeeService coffeeService;
     private final PointService pointService;
     private final OrderService orderService;
-    private final DataPlatformCollector dataPlatformCollector;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
     public OrderResponse order(OrderRequest request) {
@@ -32,8 +33,8 @@ public class OrderFacade {
         // 3. 주문 저장
         Order order = orderService.saveOrder(request.getUserId(), coffee.getId(), coffee.getPrice());
 
-        // 4. 데이터 전송
-        dataPlatformCollector.sendOrderInfo(request.getUserId(), coffee.getId(), coffee.getPrice());
+        // 4. 주문 완료 이벤트 발행 (비동기 처리 대상)
+        eventPublisher.publishEvent(new OrderCreatedEvent(order));
 
         return OrderResponse.from(order);
     }
