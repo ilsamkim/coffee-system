@@ -3,8 +3,10 @@ package com.example.coffeeorder.domain.coffee.dto;
 import com.example.coffeeorder.domain.coffee.entity.Coffee;
 import lombok.Getter;
 
+import java.io.Serializable;
+
 @Getter
-public class CoffeeResponse {
+public class CoffeeResponse implements Serializable {
 
     private final Long id;
     private final String name;

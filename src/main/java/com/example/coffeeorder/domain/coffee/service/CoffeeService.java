@@ -6,6 +6,7 @@ import com.example.coffeeorder.domain.coffee.dto.CoffeeResponse;
 import com.example.coffeeorder.domain.coffee.entity.Coffee;
 import com.example.coffeeorder.domain.coffee.repository.CoffeeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ public class CoffeeService {
 
     private final CoffeeRepository coffeeRepository;
 
+    @Cacheable(value = "coffees")
     @Transactional(readOnly = true)
     public List<CoffeeResponse> findAll() {
         return coffeeRepository.findAll().stream()
