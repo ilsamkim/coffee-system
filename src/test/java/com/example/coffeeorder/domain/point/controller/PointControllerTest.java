@@ -1,5 +1,6 @@
 package com.example.coffeeorder.domain.point.controller;
 
+import com.example.coffeeorder.common.response.ApiResponse;
 import com.example.coffeeorder.domain.point.dto.PointRequest;
 import com.example.coffeeorder.domain.point.dto.PointResponse;
 import com.example.coffeeorder.domain.point.entity.Point;
@@ -32,14 +33,15 @@ class PointControllerTest {
         Long amount = 1000L;
         PointRequest request = new PointRequest(userId, amount);
         
-        PointResponse response = PointResponse.from(Point.create(userId, amount));
-        given(pointService.charge(any(PointRequest.class))).willReturn(response);
+        PointResponse mockResponse = PointResponse.from(Point.create(userId, amount));
+        given(pointService.charge(any(PointRequest.class))).willReturn(mockResponse);
 
         // when
-        PointResponse result = pointController.charge(request);
+        ApiResponse<PointResponse> response = pointController.charge(request);
 
         // then
-        assertThat(result.getUserId()).isEqualTo(userId);
-        assertThat(result.getAmount()).isEqualTo(amount);
+        assertThat(response.isSuccess()).isTrue();
+        assertThat(response.getData().getUserId()).isEqualTo(userId);
+        assertThat(response.getData().getAmount()).isEqualTo(amount);
     }
 }

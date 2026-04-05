@@ -1,5 +1,7 @@
 package com.example.coffeeorder.domain.point.entity;
 
+import com.example.coffeeorder.common.exception.ErrorCode;
+import com.example.coffeeorder.common.exception.ServiceErrorException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -30,5 +32,12 @@ public class Point {
 
     public void addAmount(Long amount) {
         this.amount += amount;
+    }
+
+    public void deductAmount(Long amount) {
+        if (this.amount < amount) {
+            throw new ServiceErrorException(ErrorCode.ERR_INSUFFICIENT_POINTS);
+        }
+        this.amount -= amount;
     }
 }

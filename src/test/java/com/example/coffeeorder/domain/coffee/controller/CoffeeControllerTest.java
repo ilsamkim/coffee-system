@@ -1,5 +1,6 @@
 package com.example.coffeeorder.domain.coffee.controller;
 
+import com.example.coffeeorder.common.response.ApiResponse;
 import com.example.coffeeorder.domain.coffee.dto.CoffeeResponse;
 import com.example.coffeeorder.domain.coffee.entity.Coffee;
 import com.example.coffeeorder.domain.coffee.service.CoffeeService;
@@ -35,11 +36,11 @@ class CoffeeControllerTest {
         given(coffeeService.findAll()).willReturn(mockResponses);
 
         // when
-        List<CoffeeResponse> result = coffeeController.getCoffees();
+        ApiResponse<List<CoffeeResponse>> response = coffeeController.getCoffees();
 
         // then
-        assertThat(result).hasSize(2);
-        assertThat(result.get(0).getName()).isEqualTo("아메리카노");
-        assertThat(result.get(1).getName()).isEqualTo("카페라떼");
+        assertThat(response.isSuccess()).isTrue();
+        assertThat(response.getData()).hasSize(2);
+        assertThat(response.getData().get(0).getName()).isEqualTo("아메리카노");
     }
 }

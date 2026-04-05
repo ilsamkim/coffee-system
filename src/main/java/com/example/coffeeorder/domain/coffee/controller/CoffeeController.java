@@ -1,5 +1,6 @@
 package com.example.coffeeorder.domain.coffee.controller;
 
+import com.example.coffeeorder.common.response.ApiResponse;
 import com.example.coffeeorder.domain.coffee.dto.CoffeeResponse;
 import com.example.coffeeorder.domain.coffee.service.CoffeeService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class CoffeeController {
     private final CoffeeService coffeeService;
 
     @GetMapping
-    public List<CoffeeResponse> getCoffees() {
-        return coffeeService.findAll();
+    public ApiResponse<List<CoffeeResponse>> getCoffees() {
+        return ApiResponse.success(coffeeService.findAll());
     }
 }
