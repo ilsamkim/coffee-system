@@ -2,6 +2,8 @@ package com.example.coffeeorder.common;
 
 import com.example.coffeeorder.domain.coffee.entity.Coffee;
 import com.example.coffeeorder.domain.coffee.repository.CoffeeRepository;
+import com.example.coffeeorder.domain.order.entity.OrderHistory;
+import com.example.coffeeorder.domain.order.repository.OrderHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -13,6 +15,7 @@ import java.util.List;
 public class DataInit implements CommandLineRunner {
 
     private final CoffeeRepository coffeeRepository;
+    private final OrderHistoryRepository orderHistoryRepository;
 
     @Override
     public void run(String... args) {
@@ -29,6 +32,19 @@ public class DataInit implements CommandLineRunner {
                     Coffee.create("돌체라떼", 5800),
                     Coffee.create("자몽허니블랙티", 6300)
             ));
+        }
+
+        if (orderHistoryRepository.count() == 0) {
+            OrderHistory history1 = OrderHistory.create(101L, "user1", 1L, 4500);
+            history1.fail();
+
+            OrderHistory history2 = OrderHistory.create(102L, "user2", 2L, 5000);
+            history2.fail();
+
+            OrderHistory history3 = OrderHistory.create(103L, "user3", 3L, 5500);
+            history3.fail();
+
+            orderHistoryRepository.saveAll(List.of(history1, history2, history3));
         }
     }
 }
