@@ -86,6 +86,8 @@ CREATE DATABASE coffee_order DEFAULT CHARACTER SET utf8mb4;
 ### 📨 비동기 이벤트 기반 주문 처리
 *   **문제**: 외부 데이터 수집 플랫폼 전송 실패나 지연이 주문 트랜잭션에 영향을 주는 현상 방지.
 *   **해결**: `OrderCreatedEvent` 발행 및 `@Async` 리스너를 통한 비동기 처리.
+*   **기술적 선택**: 현재 프로젝트는 규모가 작아 **Kafka**와 같은 별도의 메시지 브로커를 도입하는 대신, Spring의 비동기 이벤트 메커니즘을 활용하여 인프라 복잡도를 낮췄습니다.
+    *   `DataPlatformCollector.java`에는 향후 시스템 확장 시 Kafka 등으로 교체할 수 있도록 **TODO** 주석과 함께 추상화된 구조를 유지하고 있습니다.
 *   **내결함성(Fault Tolerance)**: 전송 실패 시 `OrderHistory` 테이블에 주문 당시의 **메뉴 ID, 수량, 결제 금액**을 상세히 기록하여 추후 유실 없는 복구가 가능하도록 설계했습니다.
 
 ### 🔄 외부 스케줄러를 통한 데이터 복구 (Decoupled Architecture)
