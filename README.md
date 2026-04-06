@@ -18,6 +18,19 @@
 
 ---
 
+## 📖 API Specification
+
+상세한 API 명세는 다음 문서에서 확인할 수 있습니다.
+- [API Specification (API_SPEC.md)](./API_SPEC.md)
+
+---
+
+## 📊 Database ERD
+
+![erd.PNG](docs/images/erd.PNG)
+
+---
+
 ## 🚀 시작하기 (Getting Started)
 
 로컬 환경에서 프로젝트를 실행하기 위한 단계입니다.
