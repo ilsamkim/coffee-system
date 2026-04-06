@@ -80,3 +80,4 @@ CREATE DATABASE coffee_order DEFAULT CHARACTER SET utf8mb4;
 *   **해결**: 스케줄링 로직을 물리적으로 분리된 별도 프로젝트로 관리합니다.
 *   **관련 프로젝트**: [Coffee System Scheduler](https://github.com/ilsamkim/coffee-system-scheduler)
     *   `OrderHistory`의 실패 내역을 주기적으로 감시하고 자동으로 재전송을 시도하여 데이터 유실을 방지합니다.
+*   **트러블슈팅**: [비동기 외부 플랫폼 전송과 재시도 전략](https://velog.io/@ilsamkim/%EB%B9%84%EB%8F%99%EA%B8%B0-%EC%99%B8%EB%B6%80-%ED%94%8C%EB%9E%AB%ED%8F%BC-%EC%A0%84%EC%86%A1%EA%B3%BC-%EC%9E%AC%EC%8B%9C%EB%8F%84-%EC%A0%84%EB%9E%B5-DB-%EC%8A%A4%EC%BC%80%EC%A4%84%EB%9F%AC-MQ-%EB%B9%84%EA%B5%90)
